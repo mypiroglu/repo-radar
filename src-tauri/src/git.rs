@@ -341,6 +341,11 @@ mod tests {
         dir
     }
 
+    /// Best effort: on Windows git marks object files read-only, so deletion can fail.
+    fn cleanup(dir: &Path) {
+        let _ = fs::remove_dir_all(dir);
+    }
+
     fn run(dir: &Path, args: &[&str]) {
         let out = Command::new("git")
             .current_dir(dir)
@@ -410,9 +415,10 @@ mod tests {
             run(&d, &["init", "-q"]);
         }
         let found = find_repos(&[root.display().to_string()], 4);
-        let names: Vec<_> = found.iter().map(|p| p.strip_prefix(&root).unwrap().display().to_string()).collect();
-        assert_eq!(names, vec!["a", "group/b"]);
-        fs::remove_dir_all(root).unwrap();
+        let rel: Vec<PathBuf> = found.iter().map(|p| p.strip_prefix(&root).unwrap().to_path_buf()).collect();
+        // Compare as paths, so the separator is right on Windows too.
+        assert_eq!(rel, vec![PathBuf::from("a"), Path::new("group").join("b")]);
+        cleanup(&root);
     }
 
     #[test]
@@ -463,7 +469,7 @@ mod tests {
 
         // Reading status must not leave an index lock behind.
         assert!(!work.join(".git/index.lock").exists());
-        fs::remove_dir_all(root).unwrap();
+        cleanup(&root);
     }
 
     #[test]
@@ -473,6 +479,6 @@ mod tests {
         let s = repo_status(&root);
         assert_eq!(s.error, None);
         assert!(s.last_commit.is_none());
-        fs::remove_dir_all(root).unwrap();
+        cleanup(&root);
     }
 }
