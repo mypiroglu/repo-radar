@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#14B88A"/>
+      <stop offset="1" stop-color="#0B6E7F"/>
+    </linearGradient>
+    <radialGradient id="sweep" cx="512" cy="512" r="330" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.45"/>
+    </radialGradient>
+  </defs>
+
+  <!-- App tile (macOS grid) -->
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="url(#bg)"/>
+
+  <!-- Radar rings -->
+  <g fill="none" stroke="#FFFFFF" stroke-opacity="0.28" stroke-width="14">
+    <circle cx="512" cy="512" r="330"/>
+    <circle cx="512" cy="512" r="220"/>
+    <circle cx="512" cy="512" r="110"/>
+  </g>
+
+  <!-- Sweep wedge -->
+  <path d="M512 512 L512 182 A330 330 0 0 1 845 512 Z" fill="url(#sweep)" transform="rotate(-20 512 512)"/>
+
+  <!-- Git graph: main line with a branch, detected as blips -->
+  <g stroke="#FFFFFF" stroke-width="30" stroke-linecap="round" fill="none">
+    <path d="M430 710 L430 320"/>
+    <path d="M430 610 C430 520 650 530 650 430"/>
+  </g>
+  <g fill="#FFFFFF">
+    <circle cx="430" cy="710" r="46"/>
+    <circle cx="430" cy="320" r="46"/>
+  </g>
+  <circle cx="650" cy="400" r="50" fill="#FFD84D"/>
+  <circle cx="650" cy="400" r="50" fill="none" stroke="#FFFFFF" stroke-width="14"/>
+</svg>
